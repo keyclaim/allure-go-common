@@ -1,12 +1,12 @@
 package fake_test
 
 import (
+	"fmt"
 	"io"
+	"reflect"
 	"testing"
 
 	. "gopkg.in/check.v1"
-	"fmt"
-	"reflect"
 )
 
 // Hook up gocheck into the "go test" runner.

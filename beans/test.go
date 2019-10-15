@@ -5,33 +5,34 @@ import (
 	"time"
 )
 
+type TestCase struct {
+	Status      string        `xml:"status,attr"`
+	Start       int64         `xml:"start,attr"`
+	Stop        int64         `xml:"stop,attr"`
+	Name        string        `xml:"name"`
+	Steps       []*Step       `xml:"steps>step"`
+	Labels      []*Label      `xml:"labels>label"`
+	Attachments []*Attachment `xml:"attachments>attachment"`
+	Desc        string        `xml:"description"`
+	Prev        *TestCase
+	Failure     struct {
+		Msg   string `xml:"message"`
+		Trace string `xml:"stack-trace"`
+	} `xml:"failure,omitempty"`
+}
+
 //start new test case
 func NewTestCase(name string, start time.Time) *TestCase {
 	test := new(TestCase)
 	test.Name = name
 
 	if !start.IsZero() {
-		test.Start = start.Unix()
+		test.Start = start.UnixNano() / int64(time.Millisecond)
 	} else {
-		test.Start = time.Now().Unix()
+		test.Start = time.Now().UnixNano() / int64(time.Millisecond)
 	}
 
 	return test
-}
-
-type TestCase struct {
-	Status      string       `xml:"status,attr"`
-	Start       int16        `xml:"start,attr"`
-	Stop        int16        `xml:"stop,attr"`
-	Name        string       `xml:"name"`
-	Steps       []*Step       `xml:"steps"`
-	Labels      []*Label      `xml:"labels"`
-	Attachments []*Attachment `xml:"attachments"`
-	Desc        string       `xml:"description"`
-	Failure     struct {
-		Msg   string `xml:"message"`
-		Trace string `xml:"stack-trace"`
-	} `xml:"failure,omitempty"`
 }
 
 type Label struct {
@@ -57,9 +58,9 @@ func (t *TestCase) AddAttachment(attach *Attachment) {
 
 func (t *TestCase) End(status string, err error, end time.Time) {
 	if !end.IsZero() {
-		t.Stop = end.Unix()
+		t.Stop = end.UnixNano() / int64(time.Millisecond)
 	} else {
-		t.Stop = time.Now().Unix()
+		t.Stop = time.Now().UnixNano() / int64(time.Millisecond)
 	}
 	t.Status = status
 	if err != nil {
