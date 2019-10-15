@@ -3,7 +3,7 @@ package allure
 import (
     "bytes"
     "errors"
-    "github.com/lordmx/allure-go-common/beans"
+    "github.com/keyclaim/allure-go-common/beans"
     "time"
     //    "mime"
     //    "code.google.com/p/go-uuid/uuid"

@@ -2,7 +2,7 @@ package fake_test
 
 import (
 	"testing"
-	"github.com/GabbyyLS/allure-go-common/fake"
+	"github.com/keyclaim/allure-go-common/fake"
 )
 
 func TestFake(t *testing.T) {
