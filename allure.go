@@ -119,15 +119,11 @@ func (a *Allure) PendingCase(testName string, start time.Time) {
 
 //utils
 func getBufferInfo(buf bytes.Buffer, typ string) (string, string) {
-    //    exts,err := mime.ExtensionsByType(typ)
-    //    if err != nil {
-    //        mime.ParseMediaType()
-    //    }
     return "text/plain", "txt"
 }
 
 func writeBuffer(pathDir string, buf bytes.Buffer, ext string) (string, error) {
-    fileName := uuid.NewV4().String() + `-attachment.` + ext
+    fileName := uuid.Must(uuid.NewV4()).String() + `-attachment.` + ext
     err := ioutil.WriteFile(filepath.Join(pathDir, fileName), buf.Bytes(), 0777)
     return fileName, err
 }
@@ -137,5 +133,6 @@ func writeSuite(pathDir string, suite *beans.Suite) error {
     if err != nil {
         return err
     }
-    return ioutil.WriteFile(filepath.Join(pathDir, uuid.NewV4().String()+`-testsuite.xml`), bytes, 0777)
+    return ioutil.WriteFile(filepath.Join(pathDir, uuid.Must(uuid.NewV4()).String() + `-testsuite.xml`), bytes, 0777)
 }
+
